@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<title>{{ title }}</title>
+    {% include "menu.html"  %}
+</head>
+<body>
+    <h3>Список языков</h3>
+    <ol type="1">
+        {% for item in languages %}
+            <li><a href="/countries_by_language/{{ item }}/">{{ item }}</a></li>
+        {% endfor %}
+    </ol>
+</body>
+</html>

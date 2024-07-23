@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ language }}</title>
+    {% include "menu.html"  %}
+</head>
+<body>
+    <h3>{{ language }}</h3>
+    <ul>
+        {% for item in countries %}
+            <li><a href="/country/{{ item.country }}/">{{ item.country }}</a></li>
+        {% endfor %}
+    </ul>
+    <a href="/country-list">Назад к списку стран</a>
+
+</body>
+</html>
