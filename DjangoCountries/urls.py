@@ -16,7 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from MainApp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.render_main),
+    path('country-list/', views.render_country_list),
+    path('country/<str:name>/', views.render_country_by_name, name='country'),
+    path('countries_by_letter/<str:letter>/', views.render_countries_by_first_letter, name='letter'),
+    path('countries_by_language/<str:language>/', views.render_countries_by_language, name='language'),
+    path('languages/', views.render_languages, name='languages'),
 ]
