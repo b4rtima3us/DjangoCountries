@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ item.country }}</title>
+    <title>{{ item.name }}</title>
     {% include "menu.html"  %}
 </head>
 <body>
-    <h3>{{ item.country }}</h3>
+    <h3>{{ item.name }}</h3>
     <h3>Languages:</h3>
     <ul>
-        {% for language in item.languages %}
-            <li><a href="/countries_by_language/{{ language }}/">{{ language }}</a></li>
+        {% for language in languages %}
+            <li><a href="/countries_by_language/{{ language.name }}/">{{ language.name }}</a></li>
         {% endfor %}
     </ul>
     <a href="/country-list">Назад к списку стран</a>

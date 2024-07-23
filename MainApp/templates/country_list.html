@@ -12,7 +12,7 @@
     {% endfor %}
     <ol type="1">
         {% for item in page_obj %}
-            <li><a href="/country/{{ item.country }}/">{{ item.country }}</a></li>
+            <li><a href="/country/{{ item.name }}/">{{ item.name }}</a></li>
         {% endfor %}
     </ol>
 

@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ language }}</title>
+    <title>{{ item.name  }}</title>
     {% include "menu.html"  %}
 </head>
 <body>
-    <h3>{{ language }}</h3>
+    <h3>{{ item.name }}</h3>
     <ul>
-        {% for item in countries %}
+        {% for item in items %}
             <li><a href="/country/{{ item.country }}/">{{ item.country }}</a></li>
         {% endfor %}
     </ul>

@@ -8,8 +8,8 @@
 <body>
     <h3>{{ letter }}</h3>
     <ul>
-        {% for item in countries %}
-            <li><a href="/country/{{ item.country }}/">{{ item.country }}</a></li>
+        {% for item in items %}
+            <li><a href="/country/{{ item.name }}/">{{ item.name }}</a></li>
         {% endfor %}
     </ul>
     <a href="/country-list">Назад к списку стран</a>
