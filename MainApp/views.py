@@ -1,9 +1,13 @@
 import ast
 
 from django.shortcuts import render
-from MainApp.utils import flatten_list
 from string import ascii_uppercase
 from pathlib import Path
+from MainApp.utils import flatten_list
+
+from django.core.paginator import Paginator
+
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 with open(f'{BASE_DIR}/country_list.json', 'r', encoding='utf-8') as file:
@@ -15,10 +19,13 @@ def render_main(request):
 
 
 def render_country_list(request):
+    paginator = Paginator(countries, per_page=25)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
     context = {
         'title': 'Countries',
         'alphabet': ' '.join(ascii_uppercase),
-        'countries': countries
+        'page_obj': page_obj
     }
     return render(request, 'country_list.html', context)
 
