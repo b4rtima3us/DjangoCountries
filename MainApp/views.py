@@ -1,17 +1,9 @@
-import ast
-
 from django.shortcuts import render
-from string import ascii_uppercase
-from pathlib import Path
-from MainApp.utils import flatten_list
-
 from django.core.paginator import Paginator
-
-
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-with open(f'{BASE_DIR}/country_list.json', 'r', encoding='utf-8') as file:
-    countries = ast.literal_eval(file.read())
+from django.core.exceptions import ObjectDoesNotExist
+from string import ascii_uppercase
+from MainApp.utils import flatten_list
+from MainApp.models import Country, Languages
 
 
 def render_main(request):
@@ -19,6 +11,7 @@ def render_main(request):
 
 
 def render_country_list(request):
+    countries = Country.objects.all()
     paginator = Paginator(countries, per_page=25)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -31,33 +24,36 @@ def render_country_list(request):
 
 
 def render_country_by_name(request, name):
-    item = next((i for i in countries if i['country'] == name), None)
-    if item:
-        return render(request, 'country.html', {'item': item})
+    # Надо переделать в ForeignKey
+    item = Country.objects.get(name=name)
+    languages = Languages.objects.filter(country=name)
+    context = {
+        'item': item,
+        'languages': languages
+    }
+    return render(request, 'country.html', context)
 
 
 def render_countries_by_first_letter(request, letter):
-    countries_by_letter = [i for i in countries if i['country'][0].lower() == letter.lower()]
+    countries = Country.objects.all()
+    countries_by_letter = [i for i in countries if i.name[0].lower() == letter.lower()]
     context = {
         'letter': letter,
-        'countries': countries_by_letter
+        'items': countries_by_letter
     }
     return render(request, 'countries_by_letter.html', context)
 
 
 def render_countries_by_language(request, language):
-    countries_by_language = [i for i in countries if language in i['languages']]
-    context = {
-        'language': language,
-        'countries': countries_by_language
-    }
-    return render(request, 'countries_by_language.html', context)
+    countries_by_language = Languages.objects.filter(name=language)
+    return render(request, 'countries_by_language.html', {'items': countries_by_language})
 
 
 def render_languages(request):
-    languages = sorted(set(flatten_list([i['languages'] for i in countries])))
+    languages = Languages.objects.all()
+    languages = sorted(set([i.name for i in languages]))
     context = {
         'title': 'Languages',
-        'languages': languages
+        'items': languages
     }
     return render(request, 'languages.html', context)
